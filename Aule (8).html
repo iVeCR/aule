@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aule UniPD</title>
+<meta name="application-name" content="Aule UniPD">
+<meta name="apple-mobile-web-app-title" content="Aule UniPD">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#9b0014">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%239b0014'/><g fill='none' stroke='white' stroke-width='6' stroke-linecap='round'><rect x='34' y='40' width='112' height='100' rx='10'/><path d='M34 72h112'/></g><g fill='white'><rect x='42' y='80' width='21' height='14' rx='4'/><rect x='79' y='100' width='21' height='14' rx='4'/><rect x='116' y='80' width='21' height='14' rx='4'/></g></svg>">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAACH0lEQVR42u3dUa6CMBBA0aHpEnSH7kp36CL0g19MDBo6Q8/5fzHlXUuRoss9LgFbmkOAOBAH4kAciANxIA7EgTgQB4gDcSAOxIE4EAfiQByIA3GAOBAH4kAciANxIA7EgTgQB4gDcSAOxIE4EAfiQBycRR/42rfX0z/gG4/lOuR1lyFfUiuLEok0ZVRx/HFrytBHijiUUesYNmXoI+PVysB1uBQSzRybI1TG7vfPMcU0c4aLWJ+QIg7EgTgQB+JAHIgDcSAOEAfiQByIA3EgDsSBOBAH4gBxEGmfW/GMk5kDcSAOxAFDF6Qeh8y/fjdzIA7EgTiY4Jt9di+4yq1nKw6wF12Hr39VIpG6A3RaIWscP16+5797V3qAZg7EgTgQB+JAHIgDcSCOSLDlJ//H56UHaOYg8t54W98cJ74rW3eAffJfjTBApxXEgTgQBxakUWMPzoRPYXVZnG/XqtMK4kj2xOlU3zlj5kAciANxIA7EgTgQB+KIKXfc+PgcIia88bZvR6e7ss4vOK0gDsSBOBAH4kAciANxIA4QB+JAHIgDcSAOxIE4wuPqZzpWbeC2PH3sLuOYbY59zvcEuU4r9vSWO5LNnm9lZFmQ6qPQ0WueGVHGJ8s9LlajskgXB65WEAfiQBwgDsSBOBAH4kAciANxIA7EgThAHIgDcSAOxIE4EAfiQByIA8SBOBAH4kAciANxIA7EgThAHIgDcfBXbzBDee1IxhARAAAAAElFTkSuQmCC">
+<style>
+  :root { --bg:#f6f7f9; --fg:#1b1f24; --bar:#ffffff; --line:#d9dde3; --accent:#9b0014; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#14161a; --fg:#e8eaed; --bar:#1d2025; --line:#33373e; --accent:#ff6b7d; }
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body { display: flex; flex-direction: column; background: var(--bg); color: var(--fg);
+         font: 14px/1.3 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  header { display: flex; flex-direction: column; gap: 8px; padding: 8px 12px;
+           background: var(--bar); border-bottom: 1px solid var(--line); }
+  .row { display: flex; align-items: center; gap: 8px; }
+  .nav { flex-wrap: nowrap; }
+  .tools { flex-wrap: nowrap; gap: 6px; }
+  .tools > * { min-width: 0; }
+  .tools select { flex: 1 1 auto; }
+  .tools input[type=date] { flex: 0 1 auto; }
+  button, input[type=date], a.btn { font: inherit; color: inherit; background: var(--bg);
+           border: 1px solid var(--line); border-radius: 8px; padding: 6px 9px; cursor: pointer;
+           text-decoration: none; }
+  button:hover, a.btn:hover { border-color: var(--accent); }
+  #home { display: inline-flex; align-items: center; justify-content: center; padding: 6px 8px; }
+  #home svg { display: block; }
+  .arrow { font-size: 20px; line-height: 1; padding: 4px 14px; }
+  select { font: inherit; color: inherit; background: var(--bg); border: 1px solid var(--line);
+           border-radius: 8px; padding: 6px 8px; max-width: 100%; }
+  #label { flex: 1; min-width: 0; text-align: center; font-weight: 600; text-transform: capitalize; }
+  #label small { display: block; font-weight: 400; opacity: .6; text-transform: none; }
+  #wrap { flex: 1; min-height: 0; overflow: hidden; }
+  #sizer { position: relative; overflow: hidden; }
+  iframe { display: block; border: 0; background: #fff; transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<header>
+  <div class="row nav">
+    <button class="arrow" id="prev" title="Giorno precedente (←)">‹</button>
+    <div id="label"></div>
+    <button class="arrow" id="next" title="Giorno successivo (→)">›</button>
+  </div>
+  <div class="row tools">
+    <button id="home" title="Home: DEI e oggi (H)" aria-label="Home">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5a.5.5 0 0 0 .5.5h4v-6h4v6h4a.5.5 0 0 0 .5-.5V10"/></svg>
+    </button>
+    <select id="sede" title="Edificio"></select>
+    <button id="today" title="Torna a oggi (T)">Oggi</button>
+    <input type="date" id="picker">
+    <a class="btn" id="open" target="_blank" rel="noopener" title="Apri sul sito">↗</a>
+  </div>
+</header>
+<div id="wrap"><div id="sizer"><iframe id="grid" title="Orari aule"></iframe></div></div>
+
+<script>
+// ---- Configurazione: aule selezionate (modifica qui per cambiarle) ----
+const BASE = "https://agendastudentiunipd.easystaff.it/index.php";
+// ---- Edifici (sedi). Cambia "label" per dare il nome che vuoi. ----
+// "aule": elenco di aule da mostrare; se manca, il sito mostra tutte le aule della sede.
+// La prima sede dell'elenco (DEI) è quella usata dal tasto Home.
+const SEDI = [
+  { code: "00280",   label: "DEI", aule: [51436,51447,51304,51305,51438,51437,51435,100186,51306,51442,51441,51439,51440,100267,100269,51445] },
+  { code: "1000084", label: "HUB" },
+  { code: "00300",   label: "Bassi" },
+];
+const HOME_SEDE = SEDI[0].code;
+
+function buildUrl(iso, s) {
+  const p = new URLSearchParams();
+  p.set("form-type", "rooms");
+  p.set("view", "rooms");
+  p.set("include", "rooms");
+  p.set("aula", "");
+  p.append("sede_get[]", s.code);
+  p.append("sede[]", s.code);
+  (s.aule || []).forEach(a => p.append("aula[]", a));
+  p.set("date", iso);
+  p.set("_lang", "it");
+  p.set("list", "");
+  p.set("week_grid_type", "-1");
+  p.set("ar_codes_", "");
+  p.set("ar_select_", "");
+  p.set("col_cells", "0");
+  p.set("empty_box", "0");
+  p.set("only_grid", "1");
+  p.set("highlighted_date", "0");
+  p.set("all_events", "0");
+  return BASE + "?" + p.toString();
+}
+
+const pad = n => String(n).padStart(2, "0");
+const toIso = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const fromIso = s => { const [y,m,d] = s.split("-").map(Number); return new Date(y, m-1, d, 12); };
+
+let current = new Date(); current.setHours(12,0,0,0);
+let sedeCode = SEDI[0].code;
+try { const sv = localStorage.getItem("sede"); if (SEDI.some(x => x.code === sv)) sedeCode = sv; } catch (e) {}
+
+const $ = id => document.getElementById(id);
+
+function render() {
+  const iso = toIso(current);
+  const url = buildUrl(iso, SEDI.find(x => x.code === sedeCode));
+  $("grid").src = url;
+  $("open").href = url.replace("only_grid=1", "only_grid=0");
+  $("picker").value = iso;
+  $("sede").value = sedeCode;
+  try { localStorage.setItem("sede", sedeCode); } catch (e) {}
+  const long = current.toLocaleDateString("it-IT", { weekday:"long", day:"numeric", month:"long", year:"numeric" });
+  const isToday = iso === toIso(new Date());
+  $("label").innerHTML = long + (isToday ? "<small>oggi</small>" : "");
+  document.title = "Aule UniPD · " + iso;
+}
+
+function shift(days) { current.setDate(current.getDate() + days); render(); }
+function goHome() {
+  sedeCode = HOME_SEDE;
+  current = new Date(); current.setHours(12,0,0,0);
+  render();
+}
+
+$("prev").onclick = () => shift(-1);
+$("next").onclick = () => shift(1);
+$("today").onclick = () => { current = new Date(); current.setHours(12,0,0,0); render(); };
+$("home").onclick = goHome;
+$("picker").onchange = e => { if (e.target.value) { current = fromIso(e.target.value); render(); } };
+
+document.addEventListener("keydown", e => {
+  if (e.target.tagName === "INPUT") return;
+  if (e.key === "ArrowLeft") shift(-1);
+  else if (e.key === "ArrowRight") shift(1);
+  else if (e.key.toLowerCase() === "t") $("today").click();
+  else if (e.key.toLowerCase() === "h") goHome();
+});
+
+// Il sito sceglie vista a griglia o elenco in base alla larghezza della finestra.
+// Faccio "vedere" al sito una finestra larga DESKTOP_W px e la riduco per farla entrare nello schermo.
+// Aumenta DESKTOP_W se la griglia è ancora a elenco; diminuiscilo per ingrandire il testo.
+const DESKTOP_W = 1100;
+// Ingrandimento massimo (1 = dimensione reale). Abbassalo (es. 0.6) per rimpicciolire ancora
+// sul tablet, alzalo (es. 0.85) per ingrandire. Sul telefono non cambia nulla.
+const MAX_SCALE = 0.7;
+function layout() {
+  const wrap = $("wrap"), f = $("grid"), sizer = $("sizer");
+  // Scala: riduce la finestra "desktop" per farla entrare nello schermo, ma non la ingrandisce
+  // oltre MAX_SCALE (su tablet e schermi larghi il testo resta più piccolo e si vede più contenuto).
+  const s = Math.min(wrap.clientWidth / DESKTOP_W, MAX_SCALE);
+  const W = wrap.clientWidth / s;
+  f.style.width = W + "px";
+  f.style.height = (wrap.clientHeight / s) + "px";
+  f.style.transform = "scale(" + s + ")";
+  sizer.style.width = wrap.clientWidth + "px";
+  sizer.style.height = wrap.clientHeight + "px";
+}
+window.addEventListener("resize", layout);
+window.addEventListener("orientationchange", layout);
+
+SEDI.forEach(s => {
+  const o = document.createElement("option");
+  o.value = s.code; o.textContent = s.label;
+  $("sede").appendChild(o);
+});
+$("sede").value = sedeCode;
+$("sede").onchange = e => { sedeCode = e.target.value; render(); };
+
+layout();
+render();
+</script>
+</body>
+</html>
