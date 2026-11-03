@@ -176,6 +176,7 @@ $("sede").onchange = e => { sedeCode = e.target.value; render(); };
 
 layout();
 render();
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
 </script>
 </body>
 </html>
