@@ -73,6 +73,9 @@ const SEDI = [
   { code: "00280",   label: "DEI", aule: [51436,51447,51304,51305,51438,51437,51435,100186,51306,51442,51441,51439,51440,100267,100269,51445] },
   { code: "1000084", label: "HUB" },
   { code: "00300",   label: "Bassi" },
+  // "get": valore di sede_get[] se diverso da "code" (come nei link originali del sito)
+  { code: "00480",   get: "00280", label: "Vallisneri", aule: [49462,51335,51336,51337,48839] },
+  { code: "00306",   get: "00480", label: "T. Archimede" },
 ];
 const HOME_SEDE = SEDI[0].code;
 
@@ -82,7 +85,7 @@ function buildUrl(iso, s) {
   p.set("view", "rooms");
   p.set("include", "rooms");
   p.set("aula", "");
-  p.append("sede_get[]", s.code);
+  p.append("sede_get[]", s.get || s.code);
   p.append("sede[]", s.code);
   (s.aule || []).forEach(a => p.append("aula[]", a));
   p.set("date", iso);
